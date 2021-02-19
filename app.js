@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 const path = require('path');
-var cors = require('cors');
+const cors = require('cors')
+    //const helmet = require('helmet');
+
 
 //Connexion a Mongodb
 
@@ -16,7 +18,6 @@ mongoose.connect('mongodb+srv://youcef:biboune7@cluster0.okd0i.mongodb.net/youce
     .catch(() => console.log('connexion a MongoDb echouée !'));
 
 const app = express();
-
 app.use(cors());
 
 app.use((req, res, next) => {
@@ -28,18 +29,16 @@ app.use((req, res, next) => {
 });
 
 
+
 //utilisation cors package
 
-
-
-
-
-
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(bodyParser.json());
 
+
 app.use('/images', express.static(path.join(__dirname, 'images')));
-app.use('/api/sauce', sauceRoutes);
+app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
 
 module.exports = app;
